@@ -41,6 +41,19 @@ Example:
 
 Logs are written to `<hostname>-health.log` in the current directory.
 
+### verify-cutover.sh
+Confirms that a hostname is resolving to the EG NLB after cutover by comparing
+DNS resolution against the NLB's IPs.
+
+```bash
+./verify-cutover.sh <hostname>
+```
+
+Example:
+```bash
+./verify-cutover.sh goldilocks.pelo.tech
+```
+
 ## Migration Steps
 
 1. Deploy ListenerSet + HTTPRoute with EG weight 0, nginx weight 100
@@ -48,3 +61,4 @@ Logs are written to `<hostname>-health.log` in the current directory.
 3. Start `health-loop.sh` against the live hostname (nginx traffic)
 4. Flip weights: EG to 100, nginx to 0
 5. Monitor `health-loop.sh` output for errors
+6. Run `verify-cutover.sh` to confirm DNS is resolving to EG NLB
