@@ -54,6 +54,37 @@ Example:
 ./verify-cutover.sh goldilocks.pelo.tech
 ```
 
+## Local Testing via /etc/hosts
+
+To test in a browser or with curl before DNS cutover, temporarily point the hostname
+at the EG NLB IP by adding an entry to `/etc/hosts`:
+
+```bash
+sudo nano /etc/hosts
+```
+
+Add:
+```
+<nlb-ip> <hostname>
+# e.g. 44.229.215.17 goldilocks.pelo.tech
+```
+
+Verify it's working:
+```bash
+curl -v https://<hostname> 2>&1 | grep "Connected to"
+```
+
+**Important:** Remove the entry when done — leaving it in place will prevent you
+from seeing the real DNS state after cutover.
+
+```bash
+# Remove the line from /etc/hosts when finished testing
+sudo nano /etc/hosts
+```
+
+Note: `verify-cutover.sh` uses `dig` which bypasses `/etc/hosts`, so it will always
+reflect real DNS state regardless of local overrides.
+
 ## Migration Steps
 
 1. Deploy ListenerSet + HTTPRoute with EG weight 0, nginx weight 100
