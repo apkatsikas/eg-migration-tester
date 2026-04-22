@@ -18,4 +18,4 @@ echo "NLB: $NLB_HOSTNAME ($NLB_IP)"
 CURL_ARGS=(-k --resolve "${HOSTNAME}:443:${NLB_IP}")
 [[ -n "$CREDS" ]] && CURL_ARGS+=(-u "$CREDS")
 
-curl "${CURL_ARGS[@]}" "https://${HOSTNAME}${ROUTE}"
+curl "${CURL_ARGS[@]}" -w "\n\nStatus: %{http_code} | Time: %{time_total}s\n" "https://${HOSTNAME}${ROUTE}"
