@@ -57,7 +57,7 @@ Example:
 ## Local Testing via /etc/hosts
 
 To test in a browser or with curl before DNS cutover, temporarily point the hostname
-at the EG NLB IP by adding an entry to `/etc/hosts`:
+at the EG NLB IP (can be discovered by running [`dig +short "$NLB_HOSTNAME"` and choosing one IP](https://github.com/apkatsikas/eg-migration-tester/blob/e24d59f882d30059606fd311fa7eeee5baf703bc/test-eg.sh#L13)) by adding an entry to `/etc/hosts`:
 
 ```bash
 sudo nano /etc/hosts
